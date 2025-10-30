@@ -361,30 +361,31 @@
     </style>
 
 <script>
-    // ALTERE O LINK PARA A PÁGINA QUE QUISER MOSTRAR QUANDO O USUÁRIO TENTAR SAIR
-    const link = window.location.origin + '/app/back3.html';
-  
-    function setBackRedirect(url) {
-      let urlBackRedirect = url;
-      urlBackRedirect = urlBackRedirect =
-        urlBackRedirect.trim() +
-        (urlBackRedirect.indexOf('?') > 0 ? '&' : '?') +
-        document.location.search.replace('?', '').toString();
-  
-      history.pushState({}, '', location.href);
-      history.pushState({}, '', location.href);
-      history.pushState({}, '', location.href);
-  
-      window.addEventListener('popstate', () => {
-        console.log('onpopstate', urlBackRedirect);
-        setTimeout(() => {
-          location.href = urlBackRedirect;
-        }, 1);
-      });
-    }
-  
-    setBackRedirect(link);
-  </script>
+  (function () {
+    // Defina o link para o qual o usuário será redirecionado ao clicar em "voltar".
+    const redirectLink = window.location.origin + '/app/back3.html';
+
+    // Constrói a URL de redirecionamento final, preservando os parâmetros de busca da URL atual.
+    const finalRedirectUrl = redirectLink + window.location.search;
+
+    // Empurra um novo estado para o histórico do navegador.
+    // Isso cria uma nova entrada no histórico, fazendo o navegador pensar que o usuário
+    // navegou para uma nova "página", embora a URL não mude.
+    history.pushState(null, '', window.location.href);
+
+    // Adiciona um ouvinte para o evento 'popstate'.
+    // Este evento é disparado quando o usuário tenta navegar para trás no histórico (usando o botão "voltar").
+    window.addEventListener('popstate', function () {
+      // Quando o evento 'popstate' é acionado, redireciona o usuário para a URL definida.
+      // O uso de setTimeout(..., 0) ajuda a garantir que o redirecionamento seja executado
+      // de forma mais estável após o evento ser processado pelo navegador.
+      setTimeout(function () {
+        window.location.href = finalRedirectUrl;
+      }, 0);
+    });
+
+  })();
+</script>
 
 
 </head>
