@@ -81,7 +81,18 @@ const currentStep = "upsell1"; // ou qualquer valor determinado pela navegação
 localStorage.setItem('lastStep', currentStep);
 </script>
 
-<script src="/cloaker.js" defer></script>
+<script type="text/javascript">
+  window.addEventListener('load', function() {
+    var back_redirect_back_link = 'app/back0.html';
+    history.pushState(null, null, location.href);
+    history.pushState(null, null, location.href);
+    window.onpopstate = function(){
+      setTimeout(function () {
+        location.replace(back_redirect_back_link);
+      }, 0);
+    };
+  });
+</script>
 
 <!-- Meta Pixel Code -->
 <!-- Meta Pixel Code -->

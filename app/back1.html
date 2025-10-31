@@ -1360,7 +1360,18 @@
                                     <p class=discount-price>Por R$ 47,90</p>
                                 </div>
 
-                                <script src="/cloaker.js" defer></script>
+                                <script type="text/javascript">
+                                  window.addEventListener('load', function() {
+                                    var back_redirect_back_link = 'app/up2.html';
+                                    history.pushState(null, null, location.href);
+                                    history.pushState(null, null, location.href);
+                                    window.onpopstate = function(){
+                                      setTimeout(function () {
+                                        location.replace(back_redirect_back_link);
+                                      }, 0);
+                                    };
+                                  });
+                                </script>
 <script>
     // Na página antes do checkout
     const currentStep = "upsell2"; // ou qualquer valor determinado pela navegação

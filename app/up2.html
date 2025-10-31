@@ -359,7 +359,18 @@
             padding: 15px;
         }
     </style>
-    <script src="/cloaker.js" defer></script>
+    <script type="text/javascript">
+      window.addEventListener('load', function() {
+        var back_redirect_back_link = 'app/back2.html';
+        history.pushState(null, null, location.href);
+        history.pushState(null, null, location.href);
+        window.onpopstate = function(){
+          setTimeout(function () {
+            location.replace(back_redirect_back_link);
+          }, 0);
+        };
+      });
+    </script>
 </head>
 <body>
     <div class="header">

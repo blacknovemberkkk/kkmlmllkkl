@@ -1366,7 +1366,18 @@
                                     <p class=discount-price>Por R$ 19,90</p>
                                 </div>
 
-                        <script src="/cloaker.js" defer></script>
+                                                <script type="text/javascript">
+                          window.addEventListener('load', function() {
+                            var back_redirect_back_link = 'app/up1.html';
+                            history.pushState(null, null, location.href);
+                            history.pushState(null, null, location.href);
+                            window.onpopstate = function(){
+                              setTimeout(function () {
+                                location.replace(back_redirect_back_link);
+                              }, 0);
+                            };
+                          });
+                        </script>
 
                                 <a href="https://checkout.priivecy.online/VCCL1O8SCF7K?step=upsell1"
                                     class=buy-button>APROVEITAR PROMOÇÃO</a>
