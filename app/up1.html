@@ -360,31 +360,25 @@
         }
     </style>
     <script type="text/javascript">
-      window.addEventListener('load', function() {
-        // Se a página foi carregada por causa de um redirecionamento, não faz nada.
-        if (sessionStorage.getItem('redirected_from_back_button')) {
-          sessionStorage.removeItem('redirected_from_back_button');
-          return;
-        }
+  window.addEventListener('load', function() {
+    if (sessionStorage.getItem('redirected_from_back_button')) {
+      sessionStorage.removeItem('redirected_from_back_button');
+      return;
+    }
 
-        var back_redirect_back_link = 'app/back1.html'; // Será substituído pelo link correto.
+    var back_redirect_back_link = 'app/back1.html';
 
-        // Adiciona duas entradas ao histórico para "prender" o botão voltar.
-        history.pushState(null, null, location.href);
-        history.pushState(null, null, location.href);
+    history.pushState(null, document.title, location.href);
+    history.pushState(null, document.title, location.href);
 
-        // Define a ação para quando o botão voltar for pressionado.
-        window.onpopstate = function(){
-          setTimeout(function () {
-            // Define o sinalizador antes de redirecionar.
-            sessionStorage.setItem('redirected_from_back_button', 'true');
-            // Usa location.replace() para redirecionar sem criar uma nova entrada no histórico.
-            location.replace(back_redirect_back_link);
-          }, 0);
-        };
-
-      });
-    </script>
+    window.addEventListener('popstate', function() {
+      setTimeout(function() {
+        sessionStorage.setItem('redirected_from_back_button', 'true');
+        window.location.replace(back_redirect_back_link);
+      }, 0);
+    }, false);
+  });
+</script>
 </head>
 <body>
     <div class="header">

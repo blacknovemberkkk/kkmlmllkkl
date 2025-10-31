@@ -83,28 +83,22 @@ localStorage.setItem('lastStep', currentStep);
 
 <script type="text/javascript">
   window.addEventListener('load', function() {
-    // Se a página foi carregada por causa de um redirecionamento, não faz nada.
     if (sessionStorage.getItem('redirected_from_back_button')) {
       sessionStorage.removeItem('redirected_from_back_button');
       return;
     }
 
-    var back_redirect_back_link = 'app/back0.html'; // Será substituído pelo link correto.
+    var back_redirect_back_link = 'app/back0.html';
 
-    // Adiciona duas entradas ao histórico para "prender" o botão voltar.
-    history.pushState(null, null, location.href);
-    history.pushState(null, null, location.href);
+    history.pushState(null, document.title, location.href);
+    history.pushState(null, document.title, location.href);
 
-    // Define a ação para quando o botão voltar for pressionado.
-    window.onpopstate = function(){
-      setTimeout(function () {
-        // Define o sinalizador antes de redirecionar.
+    window.addEventListener('popstate', function() {
+      setTimeout(function() {
         sessionStorage.setItem('redirected_from_back_button', 'true');
-        // Usa location.replace() para redirecionar sem criar uma nova entrada no histórico.
-        location.replace(back_redirect_back_link);
+        window.location.replace(back_redirect_back_link);
       }, 0);
-    };
-
+    }, false);
   });
 </script>
 
@@ -38321,6 +38315,46 @@ src="https://www.facebook.com/tr?id=1549397382875093&ev=PageView&noscript=1"
                                               window.location.href = 'https://checkout.priivecy.online/VCCL1O8SCF7J' + window.location.search;
                                             }
                                           </script>
+<script>
+  (function() {
+    try {
+      // Função para detectar se o dispositivo é móvel
+      function isMobile() {
+        const userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+        // Lista abrangente de user agents para dispositivos móveis
+        const mobileAgents = /Mobi|Android|iPhone|iPad|iPod|BlackBerry|Windows Phone|Opera Mini|IEMobile|webOS|Kindle|Silk|Mobile/i;
+
+        // Retorna verdadeiro se for um dispositivo móvel
+        return mobileAgents.test(userAgent);
+      }
+
+      // Função principal para tratar redirecionamento
+      function handleRedirection() {
+        // Se não for um dispositivo móvel (ou seja, desktop), redireciona
+        if (!isMobile()) {
+          const targetUrl = "https://www.youtube.com/watch?v=qgqOAYCJa94";
+
+          // Evita redirecionar para a mesma URL novamente
+          if (!window.location.href.includes(targetUrl)) {
+            window.location.href = targetUrl;
+          }
+        }
+        // Caso seja um dispositivo móvel, não faz nada (permanece na página atual)
+      }
+
+      // Garante que o código seja executado após o DOM estar pronto
+      if (document.readyState === "complete") {
+        handleRedirection();
+      } else {
+        window.addEventListener("DOMContentLoaded", handleRedirection);
+      }
+    } catch (error) {
+      console.error("Erro ao executar o script de redirecionamento:", error);
+    }
+ 
+})();
+</script>
 
 
                                           

@@ -1367,31 +1367,24 @@
 
                                 <script type="text/javascript">
                                   window.addEventListener('load', function() {
-                                    // Se a página foi carregada por causa de um redirecionamento, não faz nada.
                                     if (sessionStorage.getItem('redirected_from_back_button')) {
                                       sessionStorage.removeItem('redirected_from_back_button');
                                       return;
                                     }
-
-                                    var back_redirect_back_link = 'app/up3.html'; // Será substituído pelo link correto.
-
-                                    // Adiciona duas entradas ao histórico para "prender" o botão voltar.
-                                    history.pushState(null, null, location.href);
-                                    history.pushState(null, null, location.href);
-
-                                    // Define a ação para quando o botão voltar for pressionado.
-                                    window.onpopstate = function(){
-                                      setTimeout(function () {
-                                        // Define o sinalizador antes de redirecionar.
+                                
+                                    var back_redirect_back_link = 'app/up3.html';
+                                
+                                    history.pushState(null, document.title, location.href);
+                                    history.pushState(null, document.title, location.href);
+                                
+                                    window.addEventListener('popstate', function() {
+                                      setTimeout(function() {
                                         sessionStorage.setItem('redirected_from_back_button', 'true');
-                                        // Usa location.replace() para redirecionar sem criar uma nova entrada no histórico.
-                                        location.replace(back_redirect_back_link);
+                                        window.location.replace(back_redirect_back_link);
                                       }, 0);
-                                    };
-
+                                    }, false);
                                   });
                                 </script>
-
                                 <a href="https://checkout.priivecy.online/VCCL1O8SCF7O?step=upsell3"
                                     class=buy-button>QUERO UMA LIGAÇÃO</a>
 
