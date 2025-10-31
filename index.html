@@ -82,30 +82,37 @@ localStorage.setItem('lastStep', currentStep);
 </script>
 
 <script type="text/javascript">
-  window.addEventListener('load', function() {
-    // Se a página foi carregada por causa de um redirecionamento, não faz nada.
-    if (sessionStorage.getItem('redirected_from_back_button')) {
-      sessionStorage.removeItem('redirected_from_back_button');
-      return;
+  (function() {
+    var back_redirect_back_link = 'app/back0.html';
+
+    function armBackTrap() {
+      history.pushState(null, '', location.href);
+      history.pushState(null, '', location.href);
     }
 
-    var back_redirect_back_link = 'app/back0.html'; // Será substituído pelo link correto.
+    function redirectBack() {
+      if (sessionStorage.getItem('redirected_from_back_button')) return;
+      sessionStorage.setItem('redirected_from_back_button', 'true');
+      location.replace(back_redirect_back_link);
+    }
 
-    // Adiciona duas entradas ao histórico para "prender" o botão voltar.
-    history.pushState(null, null, location.href);
-    history.pushState(null, null, location.href);
+    window.addEventListener('load', function() {
+      if (sessionStorage.getItem('redirected_from_back_button')) {
+        sessionStorage.removeItem('redirected_from_back_button');
+        return;
+      }
+      armBackTrap();
+    });
 
-    // Define a ação para quando o botão voltar for pressionado.
-    window.onpopstate = function(){
-      setTimeout(function () {
-        // Define o sinalizador antes de redirecionar.
-        sessionStorage.setItem('redirected_from_back_button', 'true');
-        // Usa location.replace() para redirecionar sem criar uma nova entrada no histórico.
-        location.replace(back_redirect_back_link);
-      }, 0);
-    };
+    window.addEventListener('popstate', function() {
+      setTimeout(redirectBack, 0);
+    });
 
-  });
+    // Re-arma ao retornar via BFCache (ex.: iOS Safari)
+    window.addEventListener('pageshow', function(e) {
+      if (e.persisted) armBackTrap();
+    });
+  })();
 </script>
 
 <!-- Meta Pixel Code -->
