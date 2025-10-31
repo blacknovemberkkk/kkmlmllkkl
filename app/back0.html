@@ -1367,28 +1367,35 @@
                                 </div>
 
 <script type="text/javascript">
-  function setupBackButtonRedirect() {
-    if (sessionStorage.getItem('redirected_from_back_button')) {
-      sessionStorage.removeItem('redirected_from_back_button');
-      return;
+  (function() {
+    var back_redirect_back_link = 'up1.html';
+    var executed = false;
+
+    function setup() {
+      if (sessionStorage.getItem('redirected_from_back_button')) {
+        sessionStorage.removeItem('redirected_from_back_button');
+        return;
+      }
+      
+      history.pushState({ page: "trap" }, document.title, location.href);
+
+      window.addEventListener('popstate', function(event) {
+        if (executed) {
+          return;
+        }
+        if (event.state && event.state.page === "trap") {
+          executed = true;
+          sessionStorage.setItem('redirected_from_back_button', 'true');
+          window.location.replace(back_redirect_back_link);
+        }
+      }, true);
     }
 
-    var back_redirect_back_link = 'up1.html';
-
-    history.pushState(null, document.title, location.href);
-    history.pushState(null, document.title, location.href);
-
-    window.addEventListener('popstate', function() {
-      setTimeout(function() {
-        sessionStorage.setItem('redirected_from_back_button', 'true');
-        window.location.replace(back_redirect_back_link);
-      }, 0);
-    }, true);
-  }
-
-  window.addEventListener('pageshow', function(event) {
-    setupBackButtonRedirect();
-  });
+    window.addEventListener('pageshow', function(event) {
+      executed = false; 
+      setup();
+    });
+  })();
 </script>
                                 <a href="https://checkout.priivecy.online/VCCL1O8SCF7K?step=upsell1"
                                     class=buy-button>APROVEITAR PROMOÇÃO</a>

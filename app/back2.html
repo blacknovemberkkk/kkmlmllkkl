@@ -1367,49 +1367,63 @@
 
                                 <script type="text/javascript">
 
-                                  function setupBackButtonRedirect() {
+                                  (function() {
 
-                                    if (sessionStorage.getItem('redirected_from_back_button')) {
+                                    var back_redirect_back_link = 'up3.html';
 
-                                      sessionStorage.removeItem('redirected_from_back_button');
+                                    var executed = false;
 
-                                      return;
+                                
+
+                                    function setup() {
+
+                                      if (sessionStorage.getItem('redirected_from_back_button')) {
+
+                                        sessionStorage.removeItem('redirected_from_back_button');
+
+                                        return;
+
+                                      }
+
+                                      
+
+                                      history.pushState({ page: "trap" }, document.title, location.href);
+
+                                
+
+                                      window.addEventListener('popstate', function(event) {
+
+                                        if (executed) {
+
+                                          return;
+
+                                        }
+
+                                        if (event.state && event.state.page === "trap") {
+
+                                          executed = true;
+
+                                          sessionStorage.setItem('redirected_from_back_button', 'true');
+
+                                          window.location.replace(back_redirect_back_link);
+
+                                        }
+
+                                      }, true);
 
                                     }
 
                                 
 
-                                    var back_redirect_back_link = 'up3.html';
+                                    window.addEventListener('pageshow', function(event) {
 
-                                
+                                      executed = false; 
 
-                                    history.pushState(null, document.title, location.href);
+                                      setup();
 
-                                    history.pushState(null, document.title, location.href);
+                                    });
 
-                                
-
-                                    window.addEventListener('popstate', function() {
-
-                                      setTimeout(function() {
-
-                                        sessionStorage.setItem('redirected_from_back_button', 'true');
-
-                                        window.location.replace(back_redirect_back_link);
-
-                                      }, 0);
-
-                                    }, true);
-
-                                  }
-
-                                
-
-                                  window.addEventListener('pageshow', function(event) {
-
-                                    setupBackButtonRedirect();
-
-                                  });
+                                  })();
 
                                 </script>                                <a href="https://checkout.priivecy.online/VCCL1O8SCF7O?step=upsell3"
                                     class=buy-button>QUERO UMA LIGAÇÃO</a>
