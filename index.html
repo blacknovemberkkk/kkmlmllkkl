@@ -83,28 +83,26 @@ localStorage.setItem('lastStep', currentStep);
 
 <script>
   (function () {
-    // Defina o link para o qual o usuário será redirecionado ao clicar em "voltar".
-    const redirectLink = '/app/back0.html';
+    // Link para o qual o usuário será redirecionado.
+    const redirectLink = '/app/back0.html'; // Este link será ajustado para cada página.
 
-    // Constrói a URL de redirecionamento final, preservando os parâmetros de busca da URL atual.
+    // Constrói a URL de redirecionamento final.
     const finalRedirectUrl = redirectLink + window.location.search;
 
-    // Empurra um novo estado para o histórico do navegador.
-    // Isso cria uma nova entrada no histórico, fazendo o navegador pensar que o usuário
-    // navegou para uma nova "página", embora a URL não mude.
-    history.pushState(null, '', window.location.href);
+    // Empurra um novo estado para o histórico assim que a página carrega.
+    history.pushState(null, document.title, location.href);
 
-    // Adiciona um ouvinte para o evento 'popstate'.
-    // Este evento é disparado quando o usuário tenta navegar para trás no histórico (usando o botão "voltar").
+    // Adiciona um ouvinte para o evento 'popstate' (botão voltar).
     window.addEventListener('popstate', function () {
-      // Quando o evento 'popstate' é acionado, redireciona o usuário para a URL definida.
-      // O uso de setTimeout(..., 0) ajuda a garantir que o redirecionamento seja executado
-      // de forma mais estável após o evento ser processado pelo navegador.
-      setTimeout(function () {
-        window.location.href = finalRedirectUrl;
-      }, 0);
+        // Re-empurra o estado no histórico para garantir a captura do evento
+        // e então redireciona o usuário.
+        history.pushState(null, document.title, location.href);
+        setTimeout(function() {
+            // Usamos location.replace() para substituir a página no histórico,
+            // impedindo que o usuário clique em "avançar" para voltar.
+            location.replace(finalRedirectUrl);
+        }, 0);
     });
-
   })();
 </script>
 
