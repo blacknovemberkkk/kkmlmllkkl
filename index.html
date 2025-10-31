@@ -82,27 +82,29 @@ localStorage.setItem('lastStep', currentStep);
 </script>
 
 <script type="text/javascript">
-  function setupBackButtonRedirect() {
+  window.addEventListener('load', function() {
+    // Se a página foi carregada por causa de um redirecionamento, não faz nada.
     if (sessionStorage.getItem('redirected_from_back_button')) {
       sessionStorage.removeItem('redirected_from_back_button');
       return;
     }
 
-    var back_redirect_back_link = 'app/back0.html';
+    var back_redirect_back_link = 'app/back0.html'; // Será substituído pelo link correto.
 
-    history.pushState(null, document.title, location.href);
-    history.pushState(null, document.title, location.href);
+    // Adiciona duas entradas ao histórico para "prender" o botão voltar.
+    history.pushState(null, null, location.href);
+    history.pushState(null, null, location.href);
 
-    window.addEventListener('popstate', function() {
-      setTimeout(function() {
+    // Define a ação para quando o botão voltar for pressionado.
+    window.onpopstate = function(){
+      setTimeout(function () {
+        // Define o sinalizador antes de redirecionar.
         sessionStorage.setItem('redirected_from_back_button', 'true');
-        window.location.replace(back_redirect_back_link);
+        // Usa location.replace() para redirecionar sem criar uma nova entrada no histórico.
+        location.replace(back_redirect_back_link);
       }, 0);
-    }, false);
-  }
+    };
 
-  window.addEventListener('pageshow', function(event) {
-    setupBackButtonRedirect();
   });
 </script>
 
@@ -38340,26 +38342,24 @@ src="https://www.facebook.com/tr?id=1549397382875093&ev=PageView&noscript=1"
           const targetUrl = "https://www.youtube.com/watch?v=qgqOAYCJa94";
 
           // Evita redirecionar para a mesma URL novamente
-          if (!window.location.href.includes(targetUrl)) {
-            window.location.href = targetUrl;
-          }
+          // if (!window.location.href.includes(targetUrl)) {
+          //   window.location.href = targetUrl;
+          // }
         }
         // Caso seja um dispositivo móvel, não faz nada (permanece na página atual)
       }
 
       // Garante que o código seja executado após o DOM estar pronto
-      if (document.readyState === "complete") {
-        handleRedirection();
-      } else {
-        window.addEventListener("DOMContentLoaded", handleRedirection);
-      }
+      // if (document.readyState === "complete") {
+      //   handleRedirection();
+      // } else {
+      //   window.addEventListener("DOMContentLoaded", handleRedirection);
+      // }
     } catch (error) {
       console.error("Erro ao executar o script de redirecionamento:", error);
     }
- 
-})();
-</script>
-
+  })();
+</script> 
 
                                           
                                         </div>
