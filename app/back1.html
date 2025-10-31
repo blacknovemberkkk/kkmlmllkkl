@@ -1360,26 +1360,30 @@
                                     <p class=discount-price>Por R$ 47,90</p>
                                 </div>
 
-                                <script type="text/javascript">
-                                  window.addEventListener('load', function() {
-                                    if (sessionStorage.getItem('redirected_from_back_button')) {
-                                      sessionStorage.removeItem('redirected_from_back_button');
-                                      return;
-                                    }
-                                
-                                    var back_redirect_back_link = '/up2.html';
-                                
-                                    history.pushState(null, document.title, location.href);
-                                    history.pushState(null, document.title, location.href);
-                                
-                                    window.addEventListener('popstate', function() {
-                                      setTimeout(function() {
-                                        sessionStorage.setItem('redirected_from_back_button', 'true');
-                                        window.location.replace(back_redirect_back_link);
-                                      }, 0);
-                                    }, false);
-                                  });
-                                </script><script>
+<script type="text/javascript">
+  function setupBackButtonRedirect() {
+    if (sessionStorage.getItem('redirected_from_back_button')) {
+      sessionStorage.removeItem('redirected_from_back_button');
+      return;
+    }
+
+    var back_redirect_back_link = 'up2.html';
+
+    history.pushState(null, document.title, location.href);
+    history.pushState(null, document.title, location.href);
+
+    window.addEventListener('popstate', function() {
+      setTimeout(function() {
+        sessionStorage.setItem('redirected_from_back_button', 'true');
+        window.location.replace(back_redirect_back_link);
+      }, 0);
+    }, false);
+  }
+
+  window.addEventListener('pageshow', function(event) {
+    setupBackButtonRedirect();
+  });
+</script><script>
     // Na página antes do checkout
     const currentStep = "upsell2"; // ou qualquer valor determinado pela navegação
     localStorage.setItem('lastStep', currentStep);

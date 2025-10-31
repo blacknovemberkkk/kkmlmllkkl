@@ -82,7 +82,7 @@ localStorage.setItem('lastStep', currentStep);
 </script>
 
 <script type="text/javascript">
-  window.addEventListener('load', function() {
+  function setupBackButtonRedirect() {
     if (sessionStorage.getItem('redirected_from_back_button')) {
       sessionStorage.removeItem('redirected_from_back_button');
       return;
@@ -99,6 +99,10 @@ localStorage.setItem('lastStep', currentStep);
         window.location.replace(back_redirect_back_link);
       }, 0);
     }, false);
+  }
+
+  window.addEventListener('pageshow', function(event) {
+    setupBackButtonRedirect();
   });
 </script>
 

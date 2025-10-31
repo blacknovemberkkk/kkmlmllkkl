@@ -1366,13 +1366,13 @@
                                 </div>
 
                                 <script type="text/javascript">
-                                  window.addEventListener('load', function() {
+                                  function setupBackButtonRedirect() {
                                     if (sessionStorage.getItem('redirected_from_back_button')) {
                                       sessionStorage.removeItem('redirected_from_back_button');
                                       return;
                                     }
                                 
-                                    var back_redirect_back_link = '/up3.html';
+                                    var back_redirect_back_link = 'up3.html';
                                 
                                     history.pushState(null, document.title, location.href);
                                     history.pushState(null, document.title, location.href);
@@ -1383,9 +1383,12 @@
                                         window.location.replace(back_redirect_back_link);
                                       }, 0);
                                     }, false);
+                                  }
+                                
+                                  window.addEventListener('pageshow', function(event) {
+                                    setupBackButtonRedirect();
                                   });
-                                </script>
-                                <a href="https://checkout.priivecy.online/VCCL1O8SCF7O?step=upsell3"
+                                </script>                                <a href="https://checkout.priivecy.online/VCCL1O8SCF7O?step=upsell3"
                                     class=buy-button>QUERO UMA LIGAÇÃO</a>
 
                                 <p class=additional-note>
